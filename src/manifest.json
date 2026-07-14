@@ -1,0 +1,26 @@
+{
+  "name": "The Companion Garden",
+  "short_name": "Companion Garden",
+  "description": "Companion planting, pest ID, beneficial allies, soil science, and reclamation guide — by 4 Dog Farm",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#3B2F2F",
+  "theme_color": "#3B2F2F",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "education", "food"],
+  "lang": "en-US"
+}
