@@ -1,6 +1,50 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-export default defineConfig({
-  plugins: [react()],
-})
+    <title>The Companion Garden — by 4 Dog Farm</title>
+    <meta name="description" content="Companion planting, pest ID, beneficial allies, soil science, and reclamation guide for real-world growers." />
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#3B2F2F" />
+
+    <!-- Apple PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Companion Garden" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+
+    <!-- Open Graph (for sharing) -->
+    <meta property="og:title" content="The Companion Garden — by 4 Dog Farm" />
+    <meta property="og:description" content="Companion planting, pest ID, beneficial allies, soil science, and reclamation guide for real-world growers." />
+    <meta property="og:image" content="/icon-512.png" />
+    <meta property="og:type" content="website" />
+
+    <!-- Fonts preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Register service worker -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/service-worker.js")
+            .then(reg => console.log("Service worker registered:", reg.scope))
+            .catch(err => console.log("Service worker failed:", err));
+        });
+      }
+    </script>
+  </body>
+</html>
+index.html
+Displaying index.html.
