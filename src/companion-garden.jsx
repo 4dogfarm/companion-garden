@@ -376,26 +376,38 @@ function DetailPhoto({query, alt}) {
     setLoading(true);
     setError(false);
     setUrl(null);
-    // Use Wikimedia Commons API — free, no key, reliable botanical/garden photos
     const encoded = encodeURIComponent(query);
+    // Try Wikipedia summary first
     fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encoded}`)
       .then(r => r.json())
       .then(data => {
         if(data.thumbnail?.source) {
-          // Upscale the thumbnail for better quality
-          const src = data.thumbnail.source.replace(/\/\d+px-/, "/600px-");
+          const src = data.thumbnail.source.replace(/\/\d+px-/, "/500px-");
           setUrl(src);
+          setLoading(false);
         } else {
-          // Fallback: Wikimedia image search
-          return fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${encoded}&prop=pageimages&pithumbsize=600&format=json&origin=*`)
+          // Fallback: Wikimedia Commons image search
+          fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${encoded}&prop=pageimages&pithumbsize=500&format=json&origin=*`)
             .then(r=>r.json())
             .then(d=>{
               const pages = Object.values(d?.query?.pages||{});
               const thumb = pages[0]?.thumbnail?.source;
-              if(thumb) setUrl(thumb); else setError(true);
-            });
+              if(thumb) { setUrl(thumb); } else {
+                // Second fallback: search commons directly
+                fetch(`https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrsearch=${encoded}&prop=imageinfo&iiprop=url&iiurlwidth=500&format=json&origin=*`)
+                  .then(r=>r.json())
+                  .then(d2=>{
+                    const imgs = Object.values(d2?.query?.pages||{});
+                    const imgUrl = imgs[0]?.imageinfo?.[0]?.thumburl;
+                    if(imgUrl) setUrl(imgUrl); else setError(true);
+                    setLoading(false);
+                  })
+                  .catch(()=>{ setError(true); setLoading(false); });
+              }
+              if(thumb) setLoading(false);
+            })
+            .catch(()=>{ setError(true); setLoading(false); });
         }
-        setLoading(false);
       })
       .catch(()=>{ setError(true); setLoading(false); });
   }, [query]);
@@ -560,7 +572,7 @@ export default function CompanionGarden() {
           {plant.budget && <div className="detail-section"><div className="section-head">Budget Tips</div><div className="budget-note">💰 {plant.budget}</div></div>}
           {(plant.friends||[]).length>0 && <div className="detail-section"><div className="section-head">Good Neighbors</div><div className="companion-list">{plant.friends.map(f=><span key={f} className="companion-chip chip-friend" onClick={()=>{const p=plantMap[f];if(p){onClose();setTimeout(()=>setSelectedPlant(p),50);}}}>{plantMap[f]?.emoji||"🌱"} {plantMap[f]?.name||f}</span>)}</div></div>}
           {(plant.foes||[]).length>0 && <div className="detail-section"><div className="section-head">Keep Apart From</div><div className="companion-list">{plant.foes.map(f=><span key={f} className="companion-chip chip-foe">{plantMap[f]?.emoji||"🚫"} {plantMap[f]?.name||f}</span>)}</div></div>}
-          {(plant.pests||[]).length>0 && <div className="detail-section"><div className="section-head">Common Pests - tap for full details</div>{plant.pests.map(pid=>{const pest=pestMap[pid];if(!pest)return null;return<div key={pid} className="pest-card"><div className="pest-name">{pest.emoji} {pest.name}</div><div className="pest-damage">{pest.damage}</div><ul className="ul-arrow">{(pest.treatments||[]).slice(0,3).map((t,i)=><li key={i}>{t}</li>)}</ul></div>;})}</div>}
+          {(plant.pests||[]).length>0 && <div className="detail-section"><div className="section-head">Common Pests — tap for full details</div>{plant.pests.map(pid=>{const pest=pestMap[pid];if(!pest)return null;return<div key={pid} className="pest-card" style={{cursor:"pointer"}} onClick={()=>{onClose();setTimeout(()=>setSelectedPest(pest),50);}}><div className="pest-name" style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}><span>{pest.emoji} {pest.name}</span><span style={{fontSize:"0.7rem",fontFamily:"'Josefin Sans',sans-serif",color:"var(--clay)",letterSpacing:"0.06em"}}>TAP FOR MORE →</span></div><div className="pest-damage">{pest.damage}</div><ul className="ul-arrow">{(pest.treatments||[]).slice(0,2).map((t,i)=><li key={i}>{t}</li>)}</ul></div>;})}</div>}
         </div>
       </div>
     </div>
