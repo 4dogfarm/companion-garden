@@ -1,50 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-
-    <title>The Companion Garden — by 4 Dog Farm</title>
-    <meta name="description" content="Companion planting, pest ID, beneficial allies, soil science, and reclamation guide for real-world growers." />
-
-    <!-- PWA -->
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#3B2F2F" />
-
-    <!-- Apple PWA -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Companion Garden" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
-
-    <!-- Open Graph (for sharing) -->
-    <meta property="og:title" content="The Companion Garden — by 4 Dog Farm" />
-    <meta property="og:description" content="Companion planting, pest ID, beneficial allies, soil science, and reclamation guide for real-world growers." />
-    <meta property="og:image" content="/icon-512.png" />
-    <meta property="og:type" content="website" />
-
-    <!-- Fonts preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-
-    <!-- Register service worker -->
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker.register("/service-worker.js")
-            .then(reg => console.log("Service worker registered:", reg.scope))
-            .catch(err => console.log("Service worker failed:", err));
-        });
-      }
-    </script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4 Dog Farm - Coming Soon</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: sans-serif;
+            background-color: #2b2b2b;
+        }
+        .content {
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+            letter-spacing: 2px;
+        }
+        p {
+            font-size: 1.2rem;
+            margin: 0;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>4 Dog Farm</h1>
+        <p>Coming Soon — Something wonderful is growing here.</p>
+    </div>
+</body>
 </html>
-index.html
-Displaying index.html.
